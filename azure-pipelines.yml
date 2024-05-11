@@ -17,3 +17,11 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS Connection'
+    regionName: 'us-gov-west-1'
+    imageSource: 'imagename'
+    sourceImageName: 'open-semantic-search-poc'
+    repositoryName: 'open-semantic-search-poc'
+    autoCreateRepository: true
