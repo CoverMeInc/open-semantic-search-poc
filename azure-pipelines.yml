@@ -23,6 +23,7 @@ steps:
     regionName: 'us-gov-west-1'
     sourceImageName: '779583083558.dkr.ecr.us-gov-west-1.amazonaws.com/open-semantic-search-poc'
     repositoryName: 'open-semantic-search-poc'
+    autoCreateRepository: true
 - task: CopyFiles@2
 
   displayName: 'Copy Files to: output/'
