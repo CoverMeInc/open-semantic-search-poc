@@ -10,28 +10,33 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
-- task: Docker@2
-
-  displayName: build
-
+- task: DockerCompose@0
   inputs:
-
-    command: build
-
-    Dockerfile: Dockerfile
-
-    buildContext: .
-
-    tags: latest
-
-    arguments: '-t open-semantic-search-poc'
-
-
+    containerregistrytype: 'Azure Container Registry'
+    dockerComposeFile: 'docker-compose.yml'
+    dockerComposeFileArgs: 'CM_REG_LOC=779583083558.dkr.ecr.us-gov-west-1.amazonaws.com'
+    action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'build'
 - task: ECRPushImage@1
   inputs:
     awsCredentials: 'AWS Connection'
     regionName: 'us-gov-west-1'
-    sourceImageName: 'open-semantic-search-poc'
+    sourceImageName: '779583083558.dkr.ecr.us-gov-west-1.amazonaws.com/open-semantic-search-poc'
     repositoryName: 'open-semantic-search-poc'
-    autoCreateRepository: true
+- task: CopyFiles@2
+
+  displayName: 'Copy Files to: output/'
+
+  inputs:
+
+    Contents: |
+     docker-compose.yml
+     docker-compose.*.yml
+
+    TargetFolder: output/
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: source'
+  inputs:
+    PathtoPublish: output/
+    ArtifactName: source
