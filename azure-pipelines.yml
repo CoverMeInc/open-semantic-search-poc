@@ -32,7 +32,6 @@ steps:
   inputs:
     awsCredentials: 'AWS Connection'
     regionName: 'us-gov-west-1'
-    imageSource: 'imagename'
     sourceImageName: 'open-semantic-search-poc'
     repositoryName: 'open-semantic-search-poc'
     autoCreateRepository: true
