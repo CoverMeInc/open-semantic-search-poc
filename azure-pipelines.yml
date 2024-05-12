@@ -13,27 +13,28 @@ steps:
 - task: DockerCompose@0
   displayName: 'Run a Docker Compose command'
   inputs:
+    containerregistrytype: 'Container Registry'
     dockerComposeFile: 'docker-compose.yml'
     dockerComposeFileArgs: 'CM_REG_LOC=779583083558.dkr.ecr.us-gov-west-1.amazonaws.com'
-    dockerComposeCommand: 'build'
-- task: ECRPushImage@1
+    dockerComposeCommand: build
+
+- task: AmazonWebServices.aws-vsts-tools.ECRPushImage.ECRPushImage@1
+  displayName: 'Push Image: '
   inputs:
     awsCredentials: 'AWS Connection'
     regionName: 'us-gov-west-1'
-    imageSource: 'imagename'
     sourceImageName: '779583083558.dkr.ecr.us-gov-west-1.amazonaws.com/open-semantic-search-poc'
     repositoryName: 'open-semantic-search-poc'
-    pushTag: 'latest'
+    pushTag: '$(Build.BuildId)'
+    autoCreateRepository: true
+
 - task: CopyFiles@2
-
   displayName: 'Copy Files to: output/'
-
   inputs:
-
     Contents: |
      docker-compose.yml
      docker-compose.*.yml
-
+     docker-entrypoint.sh
     TargetFolder: output/
 
 - task: PublishBuildArtifacts@1
@@ -41,4 +42,6 @@ steps:
   inputs:
     PathtoPublish: output/
     ArtifactName: source
+
+
 
