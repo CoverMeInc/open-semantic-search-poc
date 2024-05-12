@@ -14,9 +14,11 @@ steps:
 
     Dockerfile: Dockerfile
 
-    buildContext: /
+    buildContext: .
 
     tags: latest
+    
+    arguments: '-t open-semantic-search-poc .'
 
 
 
