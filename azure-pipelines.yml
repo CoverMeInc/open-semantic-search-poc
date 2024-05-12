@@ -14,7 +14,7 @@ steps:
 
     Dockerfile: Dockerfile
 
-    buildContext: .
+    buildContext: /
 
     tags: latest
     
